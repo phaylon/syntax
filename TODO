@@ -1,0 +1,12 @@
+
+    [Possible Features for CPAN]
+        · Method
+        · Class
+        · Role
+        · Module
+        · Autobox   -- autobox => { -libs => [qw( core moose )] }
+        · Junction  -- Perl6::Junction?
+        · Gather    -- gather/take; Syntax::Keyword::Gather?
+        · Switch    -- given/when
+        · Say
+        · Loop      -- loop { }

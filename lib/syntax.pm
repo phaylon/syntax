@@ -11,19 +11,27 @@ use namespace::clean;
 
 $Carp::Internal{ +__PACKAGE__ }++;
 
-sub import {
-    my ($class, @args) = @_;
+sub import_into {
+    my ($class, $into, @args) = @_;
 
-    my $caller = caller;
     my $import = mkopt \@args;
 
     for my $declaration (@$import) {
         my ($feature, $options) = @$declaration;
 
-        $class->_install_feature($feature, $caller, $options);
+        $class->_install_feature($feature, $into, $options);
     }
 
     return 1;
+
+}
+
+sub import {
+    my ($class, @args) = @_;
+
+    my $caller = caller;
+
+    return $class->import_into($caller, @args);
 }
 
 sub _install_feature {
@@ -46,6 +54,20 @@ sub _install_feature {
 }
 
 1;
+
+=method import
+
+    syntax->import( @spec );
+
+This method will dispatch the syntax extension setup to the specified feature
+handlers for the calling package.
+
+=method import_into
+
+    syntax->import_into( $into, @spec );
+
+Same as L</import>, but performs the setup in C<$into> instead of the calling
+package.
 
 =head1 SYNOPSIS
 
