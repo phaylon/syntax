@@ -30,8 +30,6 @@ sub import {
     my ($class, @args) = @_;
 
     my $caller = caller;
-    strict->import;
-    warnings->import;
 
     return $class->import_into($caller, @args);
 }
