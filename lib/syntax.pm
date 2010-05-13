@@ -10,6 +10,7 @@ use Data::OptList qw( mkopt );
 use namespace::clean;
 
 $Carp::Internal{ +__PACKAGE__ }++;
+$Carp::Internal{ 'Devel::Declare' } ||= 1;
 
 sub import_into {
     my ($class, $into, @args) = @_;
