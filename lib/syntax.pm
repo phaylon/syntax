@@ -95,9 +95,6 @@ The passed in feature names are simply transformed: C<function> becomes
 L<Syntax::Feature::Function> and C<foo_bar> would become 
 C<Syntax::Feature::FooBar>.
 
-This module will also automatically enable L<strict> and L<warnings> upon
-L</import>.
-
 =head1 RECOMMENDED FEATURES
 
 =over

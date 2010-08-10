@@ -1,5 +1,8 @@
 
 {{$NEXT}}
 
+0.002     2010-08-10 04:33:37 Europe/Berlin
+    - Removed faulty docs about enabling strict/warnings.
+
 0.001     2010-08-10 00:06:13 Europe/Berlin
     - Initial release.
