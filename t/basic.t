@@ -13,7 +13,15 @@ my $imported_options = do {
     foo;
 };
 
+my $deep_imported_options = do {
+    package TestSubSyntaxImporter;
+    use syntax 'test_foo/bar' => { baz => 17 };
+    bar;
+};
+
 is_deeply $imported_options, { bar => 23 },
     'imported options were received';
+is_deeply $deep_imported_options, { baz => 17 },
+    'imported subsyntax options were received';
 
 done_testing;

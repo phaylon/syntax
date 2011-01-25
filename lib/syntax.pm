@@ -20,7 +20,12 @@ sub import_into {
     for my $declaration (@$import) {
         my ($feature, $options) = @$declaration;
 
-        $class->_install_feature($feature, $into, $options);
+        $class->_install_feature(
+            $feature,
+            $into,
+            $options,
+            [@args],
+        );
     }
 
     return 1;
@@ -36,21 +41,27 @@ sub import {
 }
 
 sub _install_feature {
-    my ($class, $feature, $caller, $options) = @_;
+    my ($class, $feature, $caller, $options, $all_params) = @_;
 
     my $name =
+        join '/',
+        map ucfirst,
+        split m{/},
         join '',
         map ucfirst,
-        split /_/, $feature;
+        split qr{_}, $feature;
 
     my $file    = "Syntax/Feature/${name}.pm";
-    my $package = "Syntax::Feature::${name}";
+    my $package = $file;
+    s{ \/ }{::}xg, s{ \.pm \Z }{}xgi
+        for $package;
 
     require $file;
     return $package->install(
         into        => $caller,
         options     => $options,
         identifier  => $feature,
+        outer       => $all_params,
     );
 }
 

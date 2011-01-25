@@ -1,5 +1,7 @@
 
 {{$NEXT}}
+    - Made foo/bar style extensions possible.
+    - Passing full invocant syntax on as outer argument.
 
 0.002     2010-08-10 04:33:37 Europe/Berlin
     - Removed faulty docs about enabling strict/warnings.
