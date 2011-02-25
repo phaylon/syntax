@@ -1,5 +1,6 @@
 
 {{$NEXT}}
+    - Fixed dist.ini to move Test::More to BuildRequires
 
 0.003     2011-01-30 02:22:52 Europe/Berlin
     - Made foo/bar style extensions possible.
