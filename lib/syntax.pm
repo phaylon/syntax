@@ -5,7 +5,7 @@ use warnings;
 
 package syntax;
 
-use Data::OptList qw( mkopt );
+use Data::OptList 0.104 qw( mkopt );
 
 use namespace::clean;
 

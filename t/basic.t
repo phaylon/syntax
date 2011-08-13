@@ -5,7 +5,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use Test::More;
+use Test::More 0.94;
 
 my $imported_options = do {
     package TestSyntaxImporter;
