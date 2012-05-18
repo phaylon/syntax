@@ -32,14 +32,14 @@ sub import_into {
     return 1;
 }
 
-sub unimport_into {
-    my ($class, $into, @args) = @_;
+sub unimport_from {
+    my ($class, $from, @args) = @_;
 
     for my $feature (@args) {
 
         $class->_uninstall_feature(
             $feature,
-            $into,
+            $from,
         );
     }
 
@@ -59,7 +59,7 @@ sub unimport {
 
     my $caller = caller;
 
-    return $class->unimport_into($caller, @args);
+    return $class->unimport_from($caller, @args);
 }
 
 sub _parse_feature_name {
@@ -92,7 +92,7 @@ sub _uninstall_feature {
         return;
     }
     return $package->uninstall(
-        into        => $target,
+        from        => $target,
         identifier  => $feature,
     );
 }
@@ -134,11 +134,11 @@ package.
 This method will trigger uninstallations of the C<@features> from the
 calling package.
 
-=method unimport_into
+=method unimport_from
 
-    syntax->unimport_into( $into, @features );
+    syntax->unimport_from( $from, @features );
 
-Same as L</unimport>, but will uninstall the C<@features> in C<$into>.
+Same as L</unimport>, but will uninstall the C<@features> from C<$from>.
 
 =head1 SYNOPSIS
 
