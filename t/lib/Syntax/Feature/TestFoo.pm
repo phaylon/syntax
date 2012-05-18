@@ -3,6 +3,15 @@ use warnings;
 
 package Syntax::Feature::TestFoo;
 
+our %CALL;
+
+sub uninstall {
+    my ($class, %args) = @_;
+
+    $CALL{uninstall}++;
+    return 1;
+}
+
 sub install {
     my ($class, %args) = @_;
 
@@ -12,6 +21,7 @@ sub install {
     no strict 'refs';
     *{ "${target}::foo" } = sub { $options };
 
+    $CALL{install}++;
     return 1;
 }
 

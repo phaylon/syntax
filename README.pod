@@ -47,6 +47,19 @@ handlers for the calling package.
 Same as L</import>, but performs the setup in C<$into> instead of the calling
 package.
 
+=head2 unimport
+
+    syntax->unimport( @features );
+
+This method will trigger uninstallations of the C<@features> from the
+calling package.
+
+=head2 unimport_into
+
+    syntax->unimport_into( $into, @features );
+
+Same as L</unimport>, but will uninstall the C<@features> in C<$into>.
+
 =head1 RECOMMENDED FEATURES
 
 =over
@@ -73,7 +86,7 @@ Robert 'phaylon' Sedlacek <rs@474.at>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Robert 'phaylon' Sedlacek.
+This software is copyright (c) 2012 by Robert 'phaylon' Sedlacek.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

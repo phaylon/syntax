@@ -5,6 +5,7 @@ use warnings;
 
 package syntax;
 
+use Carp                qw( carp );
 use Data::OptList 0.104 qw( mkopt );
 
 use namespace::clean;
@@ -29,7 +30,20 @@ sub import_into {
     }
 
     return 1;
+}
 
+sub unimport_into {
+    my ($class, $into, @args) = @_;
+
+    for my $feature (@args) {
+
+        $class->_uninstall_feature(
+            $feature,
+            $into,
+        );
+    }
+
+    return 1;
 }
 
 sub import {
@@ -40,8 +54,16 @@ sub import {
     return $class->import_into($caller, @args);
 }
 
-sub _install_feature {
-    my ($class, $feature, $caller, $options, $all_params) = @_;
+sub unimport {
+    my ($class, @args) = @_;
+
+    my $caller = caller;
+
+    return $class->unimport_into($caller, @args);
+}
+
+sub _parse_feature_name {
+    my ($class, $feature) = @_;
 
     my $name =
         join '/',
@@ -56,9 +78,33 @@ sub _install_feature {
     s{ \/ }{::}xg, s{ \.pm \Z }{}xgi
         for $package;
 
+    return $package, $file;
+}
+
+sub _uninstall_feature {
+    my ($class, $feature, $target) = @_;
+
+    my ($package, $file) = $class->_parse_feature_name($feature);
+
+    require $file;
+    unless ($package->can('uninstall')) {
+        carp "Syntax extension $package does not know how to uninstall";
+        return;
+    }
+    return $package->uninstall(
+        into        => $target,
+        identifier  => $feature,
+    );
+}
+
+sub _install_feature {
+    my ($class, $feature, $target, $options, $all_params) = @_;
+
+    my ($package, $file) = $class->_parse_feature_name($feature);
+
     require $file;
     return $package->install(
-        into        => $caller,
+        into        => $target,
         options     => $options,
         identifier  => $feature,
         outer       => $all_params,
@@ -80,6 +126,19 @@ handlers for the calling package.
 
 Same as L</import>, but performs the setup in C<$into> instead of the calling
 package.
+
+=method unimport
+
+    syntax->unimport( @features );
+
+This method will trigger uninstallations of the C<@features> from the
+calling package.
+
+=method unimport_into
+
+    syntax->unimport_into( $into, @features );
+
+Same as L</unimport>, but will uninstall the C<@features> in C<$into>.
 
 =head1 SYNOPSIS
 
