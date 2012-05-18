@@ -54,11 +54,11 @@ package.
 This method will trigger uninstallations of the C<@features> from the
 calling package.
 
-=head2 unimport_into
+=head2 unimport_from
 
-    syntax->unimport_into( $into, @features );
+    syntax->unimport_from( $from, @features );
 
-Same as L</unimport>, but will uninstall the C<@features> in C<$into>.
+Same as L</unimport>, but will uninstall the C<@features> from C<$from>.
 
 =head1 RECOMMENDED FEATURES
 
