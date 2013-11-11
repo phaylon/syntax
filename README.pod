@@ -1,10 +1,12 @@
+=pod
+
 =head1 NAME
 
 syntax - Activate syntax extensions
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -17,18 +19,21 @@ version 0.004
     # or
     use syntax qw( foo bar ), baz => { ... };
 
+    # Require minimum version
+    use syntax foo => { -version => '0.001', ... }, ...;
+
 =head1 DESCRIPTION
 
 This module activates community provided syntax extensions to Perl. You pass it
-a feature name, and optionally a scalar with arguments, and the dispatching 
+a feature name, and optionally a scalar with arguments, and the dispatching
 system will load and install the extension in your package.
 
-The import arguments are parsed with L<Data::OptList>. There are no 
-standardised options. Please consult the documentation for the specific syntax
-feature to find out about possible configuration options.
+The import arguments are parsed with L<Data::OptList>. The only standard option
+L</-version>. Please consult the documentation for the specific syntax feature
+to find out about possible configuration options.
 
 The passed in feature names are simply transformed: C<function> becomes
-L<Syntax::Feature::Function> and C<foo_bar> would become 
+L<Syntax::Feature::Function> and C<foo_bar> would become
 C<Syntax::Feature::FooBar>.
 
 =head1 METHODS
@@ -60,6 +65,16 @@ calling package.
 
 Same as L</unimport>, but will uninstall the C<@features> from C<$from>.
 
+=head1 SYNTAX FEATURE OPTIONS
+
+Please consult the documentation for the specific syntax feature to find out
+about possible configuration options.
+
+=head2 C<-version>
+
+Version parseable by L<version>. Will be removed from the option list passed to
+the feature.
+
 =head1 RECOMMENDED FEATURES
 
 =over
@@ -74,6 +89,7 @@ Activates functions with parameter signatures.
 
 L<Syntax::Feature::Function>,
 L<Devel::Declare>
+L<version>
 
 =head1 BUGS
 
@@ -86,7 +102,7 @@ Robert 'phaylon' Sedlacek <rs@474.at>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Robert 'phaylon' Sedlacek.
+This software is copyright (c) 2013 by Robert 'phaylon' Sedlacek.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

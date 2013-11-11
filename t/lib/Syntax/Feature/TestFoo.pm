@@ -4,6 +4,7 @@ use warnings;
 package Syntax::Feature::TestFoo;
 
 our %CALL;
+our $VERSION = '0.001';
 
 sub uninstall {
     my ($class, %args) = @_;
