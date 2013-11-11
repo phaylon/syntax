@@ -5,8 +5,9 @@ use warnings;
 
 package syntax;
 
-use Carp                qw( carp );
+use Carp                qw( carp croak );
 use Data::OptList 0.104 qw( mkopt );
+use version 0.77;
 
 use namespace::clean;
 
@@ -103,6 +104,22 @@ sub _install_feature {
     my ($package, $file) = $class->_parse_feature_name($feature);
 
     require $file;
+
+    # Check required version
+    if (my $want_version = delete $options->{-version}) {
+        my $found_version = $package->VERSION;
+
+        unless (defined $found_version) {
+            croak "$package does not define \$${package}::VERSION"
+                . '--version check failed';
+        }
+
+        if (version->parse($want_version) > $found_version) {
+            croak "$package version $want_version required"
+                . "--this is only version " . $found_version;
+        }
+    }
+
     return $package->install(
         into        => $target,
         options     => $options,
@@ -151,19 +168,32 @@ Same as L</unimport>, but will uninstall the C<@features> from C<$from>.
     # or
     use syntax qw( foo bar ), baz => { ... };
 
+    # Require minimum version
+    use syntax foo => { -version => '0.001', ... }, ...;
+
 =head1 DESCRIPTION
 
 This module activates community provided syntax extensions to Perl. You pass it
 a feature name, and optionally a scalar with arguments, and the dispatching
 system will load and install the extension in your package.
 
-The import arguments are parsed with L<Data::OptList>. There are no
-standardised options. Please consult the documentation for the specific syntax
-feature to find out about possible configuration options.
+The import arguments are parsed with L<Data::OptList>. The only standard option
+L</-version>. Please consult the documentation for the specific syntax feature
+to find out about possible configuration options.
 
 The passed in feature names are simply transformed: C<function> becomes
 L<Syntax::Feature::Function> and C<foo_bar> would become
 C<Syntax::Feature::FooBar>.
+
+=head1 SYNTAX FEATURE OPTIONS
+
+Please consult the documentation for the specific syntax feature to find out
+about possible configuration options.
+
+=head2 C<-version>
+
+Version parseable by L<version>. Will be removed from the option list passed to
+the feature.
 
 =head1 RECOMMENDED FEATURES
 
@@ -179,5 +209,6 @@ Activates functions with parameter signatures.
 
 L<Syntax::Feature::Function>,
 L<Devel::Declare>
+L<version>
 
 =cut

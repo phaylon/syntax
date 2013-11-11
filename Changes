@@ -1,5 +1,8 @@
 
 {{$NEXT}}
+	- Allow requirement of a minimum version
+
+0.004     2012-05-18 20:47:15 Europe/Berlin
     - Fixed dist.ini to move Test::More to BuildRequires
     - Added unimport possibility
       (RT #77253, Thanks to ikegami for reporting and patch contribution)
